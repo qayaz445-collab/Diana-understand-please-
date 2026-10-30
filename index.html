@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Повідомлення для Діани</title>
+  <style>
+    /* ---------- ГЛОБАЛЬНІ СТИЛІ ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0b0f19;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ---------- АНІМОВАНИЙ ФОН ---------- */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 20% 30%, #1a1f35 0%, #0b0f19 70%);
+    }
+
+    .bg-animation .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      background: #4a6cf7;
+      top: -10%;
+      left: -5%;
+      animation-duration: 20s;
+    }
+
+    .orb2 {
+      width: 400px;
+      height: 400px;
+      background: #a855f7;
+      bottom: -10%;
+      right: -5%;
+      animation-duration: 25s;
+      animation-delay: -5s;
+    }
+
+    .orb3 {
+      width: 350px;
+      height: 350px;
+      background: #06b6d4;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-duration: 22s;
+      animation-delay: -10s;
+    }
+
+    .orb4 {
+      width: 300px;
+      height: 300px;
+      background: #ec4899;
+      top: 10%;
+      right: 15%;
+      animation-duration: 28s;
+      animation-delay: -3s;
+    }
+
+    @keyframes floatOrb {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(60px, -40px) scale(1.15);
+      }
+      66% {
+        transform: translate(-40px, 50px) scale(0.9);
+      }
+      100% {
+        transform: translate(30px, -30px) scale(1.05);
+      }
+    }
+
+    /* ---------- КОНТЕЙНЕР ПОВІДОМЛЕННЯ ---------- */
+    .message-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 780px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      background: rgba(17, 22, 38, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 0 80px rgba(74, 108, 247, 0.12);
+      overflow: hidden;
+      animation: wrapperIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes wrapperIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ---------- ЗАГОЛОВОК ---------- */
+    .message-header {
+      padding: 22px 30px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .header-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #4a6cf7, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 15px rgba(74, 108, 247, 0.35);
+    }
+
+    .header-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: 0.3px;
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .header-subtitle .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #22c55e;
+      margin-right: 5px;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ---------- ОБЛАСТЬ СКРОЛУ ---------- */
+    .message-scroll {
+      overflow-y: auto;
+      padding: 28px 32px 32px;
+      flex: 1;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(74, 108, 247, 0.5) transparent;
+    }
+
+    .message-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .message-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .message-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #4a6cf7, #a855f7);
+      border-radius: 10px;
+    }
+
+    .message-scroll::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #5b7cf8, #b566f8);
+    }
+
+    /* ---------- ТЕКСТ ПОВІДОМЛЕННЯ ---------- */
+    .message-body {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: #cbd5e1;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .message-body p {
+      margin-bottom: 14px;
+    }
+
+    .message-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Підсвітка ключових слів */
+    .highlight {
+      color: #93c5fd;
+      font-weight: 600;
+    }
+
+    .highlight-green {
+      color: #86efac;
+      font-weight: 600;
+    }
+
+    .highlight-purple {
+      color: #d8b4fe;
+      font-weight: 600;
+    }
+
+    /* ---------- ФУТЕР ---------- */
+    .message-footer {
+      padding: 16px 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    .footer-text {
+      font-size: 12.5px;
+      color: #64748b;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-badge svg {
+      width: 14px;
+      height: 14px;
+      fill: #4a6cf7;
+    }
+
+    /* ---------- АДАПТИВНІСТЬ ---------- */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        align-items: flex-start;
+        padding-top: 20px;
+      }
+
+      .message-wrapper {
+        max-height: 94vh;
+        border-radius: 18px;
+      }
+
+      .message-header {
+        padding: 16px 20px 14px;
+      }
+
+      .message-scroll {
+        padding: 20px 20px 24px;
+      }
+
+      .message-body {
+        font-size: 14.5px;
+        line-height: 1.7;
+      }
+
+      .message-footer {
+        padding: 12px 20px;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .message-body {
+        font-size: 13.5px;
+      }
+
+      .header-title {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Анімований фон -->
+  <div class="bg-animation">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
+  </div>
+
+  <!-- Контейнер повідомлення -->
+  <div class="message-wrapper">
+
+    <!-- Заголовок -->
+    <div class="message-header">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <div class="header-title">Повідомлення для Діани</div>
+        <div class="header-subtitle">
+          <span class="dot"></span>Особисте повідомлення
+        </div>
+      </div>
+    </div>
+
+    <!-- Скрол-область з текстом -->
+    <div class="message-scroll">
+      <div class="message-body">
+( Діана, я тобі щось пояснюю. Краще буде, якщо ти добресно спробуєш це добре розуміти. Слухай, Діано, якщо ти справді хоч трохи хвилюєшся за Аяза, то добре зрозумій цю річ. Бо це дуже серйозна тема, і говорити про це необхідно.
+
+Спочатку зрозумій проблему з Instagram. Діано, Instagram мене вже виявив. Не має значення, чи створю я новий акаунт і скільки б не намагався обійти його алгоритм. Instagram все одно заблокує мій акаунт. І ця проблема не лише в мене — у багатьох людей те саме. Усі вони кажуть, що хоч би що робили, Instagram все одно блокує їхні акаунти. Дехто навіть казав, що просто хотів створити новий акаунт для нового початку, щоб його не заблокували, але кожного разу акаунт видаляють або блокують. Я бачив у Twitter, що в людей ця проблема дуже поширена. Я також досліджував це. Діано, зрозумій мою думку: відтепер Instagram буде постійно блокувати мій акаунт. Чому ти цього не розумієш, чи просто не хочеш розуміти?
+
+Друга річ.  
+Ти сказала, що через те, що Аяз з тобою спілкується, Instagram може заблокувати і твій акаунт. Я про це не знаю. Але чи означає це, що ми більше не можемо спілкуватися? Невже на цьому все закінчилося — наше спілкування одне з одним? Сподіваюся, ти так не думаєш. Можливо, тобі легко не спілкуватися зі мною і жити без мене, але мені це важко, дуже важко. Але ти цього не розумієш.
+
+Тепер поговоримо про рішення.  
+Діано, будь ласка, будь ласка, добре це зрозумій. Іноді не треба шукати рішення проблеми, а просто залишити цю проблему. У нас така сама ситуація: ми не можемо вирішити проблему з блокуванням акаунтів в Instagram, але можемо від неї відмовитися. Вибач, Діано, я не можу щотижня створювати новий акаунт, щоб з тобою спілкуватися. Я б навіть так робив, якби щоразу поверталася моя історія чатів. Тож, Діано, спробуй це зрозуміти. Ми обоє нічого не можемо зробити з цією проблемою.
+
+А тепер — що нам робити.  
+Діано, тобі потрібно завантажити WhatsApp. Ми зможемо спокійно спілкуватися у WhatsApp без жодних проблем. Але для цього тобі треба дати мені свій номер WhatsApp. Будь ласка, довірся мені. Я прошу твій номер тільки для того, щоб з тобою спілкуватися. Будь ласка, будь ласка. Бо іншого шляху немає.
+
+І ще одна річ.  
+Діано, мені важко так спілкуватися — щотижня створювати новий акаунт і потім дивитися, як його блокують. Я хочу, щоб ти, будь ласка, будь ласка, хоч заради мене завантажила WhatsApp і спілкувалася зі мною. Діано, я справді хочу залишатися твоїм другом. Будь ласка, залишайся і ти моєю подругою. У нас немає іншого шляху. Нам доведеться спілкуватися в іншому додатку, крім Instagram. Чи ти хоч щось розумієш, чи ні? Я вже втомився від Instagram. Після цього акаунта я створю лише ще один, щоб знову спробувати тобі пояснити. Краще, щоб ти вже зараз це зрозуміла. Якщо потім я, знервований, видалю Instagram, не думай, що Аяз не хоче з тобою спілкуватися або що ти йому не подобаєшся. Ти мені дуже подобаєшся, і я хочу продовжувати з тобою спілкуватися. Але якщо я видалю Instagram, а ти не захочеш спілкуватися зі мною в іншому додатку для спілкування — то це буде не моя провина. Я з свого боку все зробив, щоб ти зрозуміла: нам треба спілкуватися в іншому додатку. Я добре тобі все пояснив і дуже старався, щоб ти мене зрозуміла. Але якщо ти все одно будеш наполягати, що можеш спілкуватися зі мною тільки в Instagram, і скажеш «або так, або ні» — то це буде твоя впертість. Якщо ти зі свого боку не докладеш зусиль і не захочеш спілкуватися в іншому додатку, то що я можу зробити, Діано? Тому, будь ласка, спробуй зрозуміти. Діано, іноді доводиться діяти за ситуацією, а не за своєю впертістю. Сподіваюся, ти це зрозумієш. Instagram більше не підходить для нас. Я ще поспілкуюся з тобою з цього акаунта і після його блокування — з одного наступного, поки ти не даси свій номер або не знайдеш інший шлях. Інакше я тебе втрачу. А я цього зовсім не хочу, тому, будь ласка, зроби щось заради мене. Іноді проблеми не мають рішення. Діано, якби я міг щось зробити — я б обов’язково спробував. Будь ласка, Діано, я не хочу втратити таку хорошу подругу.)
+      </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="message-footer">
+      <div class="footer-text">Приватне повідомлення • Тільки для Діани</div>
+      <div class="footer-badge">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
+        </svg>
+        Захищене повідомлення
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
